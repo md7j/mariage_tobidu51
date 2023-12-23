@@ -1,0 +1,58 @@
+.step {
+    -webkit-animation: intro 2s;
+    animation: intro 2s;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.step > .title {
+    font-size: 6vw;
+}
+
+.step > .subtitle {
+    font-size: 4vw;
+}
+
+.leave {
+    -webkit-animation: leave 2s;
+    animation: leave 2s;
+}
+
+.leave2 {
+    -webkit-animation: leave2 2s;
+    animation: leave2 2s;
+}
+
+/* @-webkit-keyframes intro { */
+@keyframes intro {
+    0% {
+        opacity: 0.0;
+    }
+    100% {
+        opacity: 1;
+    }
+}
+
+/* @-webkit-keyframes intro { */
+@keyframes leave {
+    0% {
+        opacity: 1;
+    }
+    100% {
+        opacity: 0;
+        transform: translate(-50%);
+    }
+}
+
+@keyframes leave2 {
+    0% {
+        opacity: 1;
+    }
+    100% {
+        opacity: 0;
+        transform: translate(-50%);
+    }
+}
+    

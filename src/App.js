@@ -1,23 +1,33 @@
-import logo from './logo.svg';
+import { useState, useEffect } from 'react'
 import './App.css';
+import CoverImage from './components/cover_image/cover_image';
+import CoverText from './components/cover_text/cover_text';
 
 function App() {
+  const [coverImageFade, setCoverImageFade] = useState(true)
+  const [coverTextStarted, setCoverTextStarted] = useState(false)
+
+  useEffect(() => {
+    setDelay(5000).then(() => setCoverTextStarted(true))
+  }, [])
+
+  const setDelay = delay => new Promise(resolve => {
+    setTimeout(() => {
+      resolve();
+    }, delay);
+  });
+  
+  
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <div className='cover-image-container'>
+        <CoverImage fade={coverImageFade}/>
+      </div>
+      <div className="content">
+        {
+          coverTextStarted && <CoverText started={coverTextStarted}/>
+        }
+      </div>
     </div>
   );
 }

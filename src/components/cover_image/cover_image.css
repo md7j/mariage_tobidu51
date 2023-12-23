@@ -1,0 +1,46 @@
+.cover-image {
+    background-color: antiquewhite;
+    width: 100%;
+    height: 100%;
+    background-image: url('../../../public/cover.png');
+    background-position: center;
+    background-size: cover;
+    box-sizing: border-box;
+    min-height: 100vh;
+}
+
+.cover-image.fade {
+    -webkit-animation: fade-in 6s;
+    animation: fade-in 5s;
+    filter: contrast(0.25);
+}
+
+/* Chrome, Safari, Opera */
+@-webkit-keyframes fade-in {
+    0% {
+        opacity: 0.0;
+        filter: contrast(1)
+    }
+    50% {
+        opacity: 1;
+        filter: contrast(1)
+    }
+    100% {
+        filter: contrast(0.25)
+    }
+}
+
+/* Standard syntax */
+@keyframes fade-in {
+    0% {
+        opacity: 0.0;
+        filter: contrast(1)
+    }
+    50% {
+        opacity: 1;
+        filter: contrast(1)
+    }
+    100% {
+        filter: contrast(0.25)
+    }
+}
