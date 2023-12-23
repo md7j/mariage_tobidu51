@@ -5,6 +5,12 @@
     padding: 0 2vw;
     cursor: pointer;
     transition: background-color 0.2s ease;
+    border-radius: 1vw;
+}
+
+.button.active {
+    background-color: rgba(255, 255, 255, 0.5);
+    border-width: 2px;
 }
 
 .button:hover {

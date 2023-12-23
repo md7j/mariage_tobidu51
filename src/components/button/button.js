@@ -3,11 +3,12 @@ import './button.css';
 function Button(props) {
     const {
       children,
+      active,
       onClick
     } = props
 
     return (
-      <div className={`button`} onClick={onClick}>
+      <div className={`button ${active ? "active" : ""}`} onClick={onClick}>
         {children}
       </div>
     );

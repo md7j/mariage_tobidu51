@@ -10,6 +10,12 @@
     font-size: 2vw;
     font-family: 'Amatic SC', serif;
     font-weight: bold;
-    letter-spacing: 3px;
+    letter-spacing: 1px;
     color: white;
+}
+
+@media only screen and (min-device-width : 320px) and (max-device-width : 480px) {
+    .input {
+        font-size: 4vw;
+    }
 }
