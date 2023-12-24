@@ -222,6 +222,11 @@ function Recap(props) {
     setTimeout(() => setShow5(true), 5500)
   }, [])
 
+  const done = () => {
+    setLeave(true)
+    onLeave()
+  }
+
   return (
     <div key="recap" className={`step ${className}`}>
       <div className="title" key="recap_title">
@@ -238,13 +243,24 @@ function Recap(props) {
       <br/>
       { show5 && (
       <div style={{width: "100%", display: "flex", flexDirection: "column", alignItems: "center"}} className="quick-fade">
-        <Button onClick={() => alert("FINI")} active={leave} key="done_recap">Terminer</Button>
+        <Button onClick={done} active={leave} key="done_recap">Terminer</Button>
       </div>
       ) }
     </div>
   )
 }
 
+function Thank(props) {
+  const { className } = props
+
+  return (
+    <div key="thank" className={`step ${className}`}>
+      <div className="title" key="thank_title">
+        <Fade className="fade-item" cascade duration={100} delay={300}>Merci ! Nous avons hâte de fêter ça avec toi !</Fade>
+      </div>
+    </div>
+  )
+}
 
 
 function CoverText(props) {
@@ -292,7 +308,8 @@ function CoverText(props) {
     <Question2 data={data[2]} className={`${next ? "next" : ""}${previous ? "previous" : ""}`} key="02" onLeave={changeStage} />,
     <Question3 data={data[3]} className={`${next ? "next" : ""}${previous ? "previous" : ""}`} key="03" onLeave={changeStage} />,
     <Question4 data={data[4]} className={`${next ? "next" : ""}${previous ? "previous" : ""}`} key="04" onLeave={changeStage} />,
-    <Recap className={`${next ? "next" : ""}${previous ? "previous" : ""}`} data={data} key="05" />,
+    <Recap className={`${next ? "next" : ""}${previous ? "previous" : ""}`} data={data} key="05" onLeave={changeStage} />,
+    <Thank className={`${next ? "next" : ""}${previous ? "previous" : ""}`} key="06" />,
   ]
  
   return (
