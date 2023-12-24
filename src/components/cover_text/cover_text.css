@@ -4,6 +4,22 @@
     width: 90%;
 }
 
+#back-button {
+    position: absolute;
+    top: 2vh;
+    left: 2vw;
+}
+
+.button-in {
+    -webkit-animation: intro 1s;
+    animation: intro 1s;
+}
+
+.button-out {
+    -webkit-animation: intro2 1.5s;
+    animation: intro2 1.5s;
+}
+
 .step {
     -webkit-animation: intro 2s;
     animation: intro 2s;
@@ -32,8 +48,15 @@
     flex-wrap: wrap !important;
 }
 
+.quick-fade {
+    -webkit-animation: intro 1s;
+    animation: intro 1s;
+    width: 100%;
+}
+
 @media only screen and (min-device-width : 320px) and (max-device-width : 480px) {
     .step {
+        margin-top: 30vh;
         font-size: 6vw;
     }
 
@@ -42,9 +65,14 @@
     }
 }
 
-.leave {
-    -webkit-animation: leave 2s cubic-bezier(0.1, 0.7, 1, 1);;
-    animation: leave 1.5s cubic-bezier(0.5, 1, 1, 1);;
+.next {
+    -webkit-animation: next 2s cubic-bezier(0.1, 0.7, 1, 1);
+    animation: next 1.5s cubic-bezier(0.5, 1, 1, 1);
+}
+
+.previous {
+    -webkit-animation: previous 2s cubic-bezier(0.1, 0.7, 1, 1);
+    animation: previous 1.5s cubic-bezier(0.5, 1, 1, 1);
 }
 
 /* @-webkit-keyframes intro { */
@@ -57,23 +85,33 @@
     }
 }
 
-/* @-webkit-keyframes intro { */
-@keyframes leave {
+    /* @-webkit-keyframes intro { */
+@keyframes intro2 {
     0% {
         opacity: 1;
     }
     100% {
         opacity: 0;
-        transform: scale(0.95);
     }
 }
 
-@keyframes leave2 {
+/* @-webkit-keyframes intro { */
+@keyframes next {
     0% {
         opacity: 1;
     }
     100% {
         opacity: 0;
-        transform: scale(0.95);
+        transform: translate(-50%);
+    }
+}
+
+@keyframes previous {
+    0% {
+        opacity: 1;
+    }
+    100% {
+        opacity: 0;
+        transform: translate(50%);
     }
 }

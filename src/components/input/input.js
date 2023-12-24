@@ -5,10 +5,11 @@ function Input(props) {
       value,
       onChange,
       onKeyPress,
+      placeholder = ""
     } = props
 
     return (
-      <input className="input" value={value} onChange={(event) => onChange(event.target.value)} autoFocus onKeyDown={onKeyPress} type="text"/>
+      <input className="input" value={value} placeholder={placeholder} onChange={(event) => onChange(event.target.value)} autoFocus onKeyDown={onKeyPress} type="text"/>
     );
 }
 
