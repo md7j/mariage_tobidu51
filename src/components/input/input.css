@@ -5,9 +5,9 @@
     border: 0;
     border-bottom: 1px solid white;
     background-color: rgba(255, 255, 255, 0.2);
-    padding: 1vw 1vw;
+    padding: 1vh 1vw;
     width: 80%;
-    font-size: 2vw;
+    font-size: 3vw;
     font-family: 'Amatic SC', serif;
     font-weight: bold;
     letter-spacing: 1px;
@@ -21,6 +21,7 @@
 
 @media only screen and (min-device-width : 320px) and (max-device-width : 480px) {
     .input {
-        font-size: 4vw;
+        font-size: 6vw;
+        padding: 1vh 5vw;
     }
 }
