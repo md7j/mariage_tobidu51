@@ -34,6 +34,10 @@
     font-size: 6vw;
 }
 
+.step > .recap-instructions {
+    font-size: 2vw;
+}
+
 .step > .title, .step > .subtitle {
     display: flex;
     cursor: default;
@@ -63,6 +67,11 @@
     .step > .title {
         font-size: 8vw;
     }
+
+    .step > .recap-instructions {
+        font-size: 5vw;
+    }
+    
 }
 
 .next {

@@ -20,6 +20,7 @@
 @media only screen and (min-device-width : 320px) and (max-device-width : 480px) {
     .button {
         padding: 1vh 2vw;
-        width: 30vw;
+        min-width: 30vw;
+        max-width: 80vw;
     }
 }
