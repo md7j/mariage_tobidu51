@@ -1,6 +1,6 @@
 from flask import Flask, request, Response, send_file
-from csv_storage import CSVStorage
-from user_data import UserData
+from .csv_storage import CSVStorage
+from .user_data import UserData
 from flask_cors import CORS
 import os
 

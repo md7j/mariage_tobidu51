@@ -1,4 +1,4 @@
-from csv_storage import CSVStorage
+from .csv_storage import CSVStorage
 
 class UserData:
     def __init__(self, name: str, adress: str, chorale: str, instrument: str):
