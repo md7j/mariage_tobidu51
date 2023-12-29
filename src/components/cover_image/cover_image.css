@@ -10,19 +10,14 @@
 }
 
 .cover-image.fade {
-    -webkit-animation: fade-in 6s;
-    animation: fade-in 5s;
+    -webkit-animation: fade-in 1s;
+    animation: fade-in 1s;
     filter: contrast(0.25);
 }
 
 /* Chrome, Safari, Opera */
 @-webkit-keyframes fade-in {
     0% {
-        opacity: 0.0;
-        filter: contrast(1)
-    }
-    50% {
-        opacity: 1;
         filter: contrast(1)
     }
     100% {
@@ -33,11 +28,6 @@
 /* Standard syntax */
 @keyframes fade-in {
     0% {
-        opacity: 0.0;
-        filter: contrast(1)
-    }
-    50% {
-        opacity: 1;
         filter: contrast(1)
     }
     100% {

@@ -1,0 +1,1 @@
+curl --header "authorization: bearer J3mJjZb0iJ56C5KCo3SrqvC74A40SQHtw9aLehzah23GJcJywv7Vqo1RwPvu1UFe" -d '{"name2":"name", "adress":"adress", "chorale":"chorale", "instrument":"instrument"}' -H "Content-Type: application/json" -X POST http://localhost:5000/

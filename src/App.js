@@ -4,11 +4,10 @@ import CoverImage from './components/cover_image/cover_image';
 import CoverText from './components/cover_text/cover_text';
 
 function App() {
-  const [coverImageFade, setCoverImageFade] = useState(true)
   const [coverTextStarted, setCoverTextStarted] = useState(false)
 
   useEffect(() => {
-    setDelay(5000).then(() => setCoverTextStarted(true))
+    setDelay(1500).then(() => setCoverTextStarted(true))
   }, [])
 
   const setDelay = delay => new Promise(resolve => {
@@ -17,15 +16,27 @@ function App() {
     }, delay);
   });
   
-  
+  const sendData = (data) => {
+    const requestOptions = {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'authorization': process.env.REACT_APP_BACKEND_SECRET_TOKEN || "authorization_token"
+      },
+      body: JSON.stringify(data)
+    };
+    fetch(process.env.REACT_APP_BACKEND_URL || "http://localhost:5000", requestOptions).then(response => console.log(response))
+  }
+
+
   return (
     <div className="App">
       <div className='cover-image-container'>
-        <CoverImage fade={coverImageFade}/>
+        <CoverImage/>
       </div>
       <div className="content">
         {
-          coverTextStarted && <CoverText started={coverTextStarted}/>
+          coverTextStarted && <CoverText onDone={(data) => sendData(data)}/>
         }
       </div>
     </div>

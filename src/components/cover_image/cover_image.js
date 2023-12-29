@@ -1,13 +1,8 @@
 import './cover_image.css';
 
-function CoverImage(props) {
-    const {
-      fade,
-      contrast
-    } = props
-
+function CoverImage() {
     return (
-      <div className={`cover-image ${fade ? 'fade' : ''}`}/>
+      <div className={"cover-image fade"}/>
     );
   }
   
