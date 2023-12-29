@@ -1,12 +1,36 @@
 from flask import Flask, request, Response, send_file
-from .csv_storage import CSVStorage
-from .user_data import UserData
 from flask_cors import CORS
 import os
+from pathlib import Path
+from io import BytesIO
 
-app = Flask(__name__)
+file_path = Path("data.csv")
 
-cors = CORS(app)
+if not file_path.is_file():
+    with file_path.open("a") as file:
+        file.write(",".join(["nom", "adresse", "chorale", "instrument"]) + "\n")
+
+
+class CSVStorage:
+    @staticmethod
+    def add(*args):
+        with file_path.open("a") as file:
+            file.write(",".join(args) + "\n")
+
+    @staticmethod
+    def get_file():
+        with file_path.open("r") as file:
+            return BytesIO(file.buffer.read())
+
+class UserData:
+    def __init__(self, name: str, adress: str, chorale: str, instrument: str):
+        self.name = name
+        self.adress = adress
+        self.chorale = chorale
+        self.instrument = instrument
+
+    def save(self):
+        CSVStorage.add(self.name, self.adress, self.chorale, self.instrument)
 
 def has_valid_token(headers):
     token = headers.get("authorization")
@@ -17,6 +41,8 @@ def has_valid_token(headers):
     else:
         return True
 
+app = Flask(__name__)
+cors = CORS(app)
 
 @app.route("/", methods=["POST", "GET"])
 def root():
