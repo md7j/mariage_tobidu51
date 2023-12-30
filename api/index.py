@@ -109,7 +109,7 @@ def has_valid_token(headers):
 app = Flask(__name__)
 cors = CORS(app)
 
-@app.route("/", methods=["POST", "GET"])
+@app.route("/api", methods=["POST", "GET"])
 def root():
     if request.method == "POST":
         if not has_valid_token(request.headers):
@@ -118,9 +118,9 @@ def root():
         user_data.save()
         return Response(None, 200)
     if request.method == "GET":
-        if not has_valid_token(request.headers):
-            return Response(None, 401)
-        return redirect(CSVStorage.get_file(), code=302)
+        # if not has_valid_token(request.headers):
+        #     return Response(None, 401)
+        return Response(CSVStorage.get_file(), code=200)
 
 # from flask import Flask
 
