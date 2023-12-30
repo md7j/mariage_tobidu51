@@ -109,7 +109,7 @@ def has_valid_token(headers):
 app = Flask(__name__)
 cors = CORS(app)
 
-@app.route("/", methods=["POST", "GET"])
+@app.route("/api/index", methods=["POST", "GET"])
 def root():
     if request.method == "POST":
         if not has_valid_token(request.headers):
@@ -120,4 +120,5 @@ def root():
     if request.method == "GET":
         if not has_valid_token(request.headers):
             return Response(None, 401)
-        return redirect(CSVStorage.get_file(), code=302)
+        return Response("EZEZ", 200)
+        # return redirect(CSVStorage.get_file(), code=302)
