@@ -109,7 +109,7 @@ def has_valid_token(headers):
 app = Flask(__name__)
 cors = CORS(app)
 
-@app.route("/", methods=["POST", "GET"])
+@app.route("/api/user_data", methods=["POST", "GET"])
 def root():
     if request.method == "POST":
         if not has_valid_token(request.headers):
