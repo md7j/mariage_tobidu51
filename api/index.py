@@ -136,7 +136,7 @@ app = Flask(__name__)
 
 # @app.route("/", defaults={"path": ""})
 # @app.route("/<path:path>")
-@app.route("/")
+@app.route("/api")
 def hello_world(path):
     return "<p>Hello, World!</p>", 200
 
