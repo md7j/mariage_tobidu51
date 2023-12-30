@@ -119,6 +119,7 @@ def root():
         return Response(None, 200)
     if request.method == "GET":
         if not has_valid_token(request.headers):
-            return Response(None, 401)
+            return Response("CREDS ERRROR", 200)
+            # return Response(None, 401)
         return Response("EZEZ", 200)
         # return redirect(CSVStorage.get_file(), code=302)
