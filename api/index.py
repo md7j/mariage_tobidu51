@@ -7,7 +7,7 @@ import requests
 class APIResponseError(ValueError):
     pass
 
-def handle_response_errors(self, response: requests.Response) -> requests.Response:
+def handle_response_errors(response: requests.Response) -> requests.Response:
     if str(response.status_code) == "200":
         return response
     raise APIResponseError(f"Oops, something went wrong: {response.json()}")
