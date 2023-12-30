@@ -1,26 +1,91 @@
-from flask import Flask, request, Response, send_file
+from flask import Flask, request, Response, redirect
 from flask_cors import CORS
-import os
-from pathlib import Path
-from io import BytesIO
+from os import getenv
+from typing import Any, Union
+import requests
 
-file_path = Path("data.csv")
+class APIResponseError(ValueError):
+    pass
 
-if not file_path.is_file():
-    with file_path.open("a") as file:
-        file.write(",".join(["nom", "adresse", "chorale", "instrument"]) + "\n")
+def handle_response_errors(self, response: requests.Response) -> requests.Response:
+    if str(response.status_code) == "200":
+        return response
+    raise APIResponseError(f"Oops, something went wrong: {response.json()}")
 
+class BlobHandler:
+    def __init__(self) -> None:
+        self.vercel_api_url = "https://blob.vercel-storage.com"
+        self.api_version = "4"
+        self.token = getenv("BLOB_READ_WRITE_TOKEN")
+
+    def put(self, pathname: str, body: bytes) -> dict:
+        headers = {
+            "access": "public",
+            "authorization": f"Bearer {self.token}",
+            "x-api-version": self.api_version,
+            "x-content-type": "text/csv",
+            "x-cache-control-max-age": str(365 * 24 * 60 * 60),
+        }
+        _resp = requests.put(
+            f"{self.vercel_api_url}/{pathname}", data=body, headers=headers
+        )
+        return handle_response_errors(_resp).json()
+
+    def delete(self, url: Union[str, list[str], tuple[str]]) -> dict:
+        headers = {
+            "authorization": f"Bearer {self.token}",
+            "x-api-version": self.api_version,
+            "content-type": "application/json",
+        }
+        _resp = requests.post(
+            f"{self.vercel_api_url}/delete",
+            json={
+                "urls": [
+                    url,
+                ]
+                if isinstance(url, str)
+                else url
+            },
+            headers=headers,
+        )
+        return handle_response_errors(_resp).json()
+
+    def list(self, prefix: str = None, cursor: str = None, mode: str = None) -> Any:
+        headers = {
+            "authorization": f"Bearer {self.token}",
+            "limit": "1000",
+        }
+        if prefix:
+            headers["prefix"] = prefix
+        if cursor:
+            headers["cursor"] = cursor
+        if mode:
+            headers["mode"] = mode
+        _resp = requests.get(
+            self.vercel_api_url,
+            headers=headers,
+        )
+        return handle_response_errors(_resp).json()
+
+blob_handler = BlobHandler()
 
 class CSVStorage:
     @staticmethod
     def add(*args):
-        with file_path.open("a") as file:
-            file.write(",".join(args) + "\n")
+        url = CSVStorage.get_file()
+        response = requests.get(url)
+        data = handle_response_errors(response).text
+        data += ",".join([f"\"{arg}\"" for arg in args]) + "\n"
+        blob_handler.put("export_mariage.csv", bytes(data, 'utf-8'))
 
     @staticmethod
     def get_file():
-        with file_path.open("r") as file:
-            return BytesIO(file.buffer.read())
+        blobs = blob_handler.list()["blobs"]
+        if not len(blobs):
+            data = ",".join(["\"nom\"", "\"adresse\"", "\"chorale\"", "\"instrument\""])
+            return blob_handler.put("export_mariage.csv", bytes(data, "utf-8"))["url"]
+        return sorted(blobs, key=lambda d: d['uploadedAt'], reverse=True)[0]["url"]
+
 
 class UserData:
     def __init__(self, name: str, adress: str, chorale: str, instrument: str):
@@ -34,8 +99,8 @@ class UserData:
 
 def has_valid_token(headers):
     token = headers.get("authorization")
-    if not token or token != os.environ.get(
-        "AUTHORIZATION_TOKEN", "authorization_token"
+    if not token or token != getenv(
+        "REACT_APP_BACKEND_SECRET_TOKEN", "authorization_token"
     ):
         return False
     else:
@@ -55,9 +120,4 @@ def root():
     if request.method == "GET":
         if not has_valid_token(request.headers):
             return Response(None, 401)
-        return send_file(
-            path_or_file=CSVStorage.get_file(),
-            mimetype="text/csv",
-            as_attachment=True,
-            download_name="export_mariage.csv",
-        )
+        return redirect(CSVStorage.get_file(), code=302)
