@@ -135,8 +135,8 @@ from flask import Flask, Response
 app = Flask(__name__)
 
 @app.route("/", defaults={"path": ""})
-# @app.route("/<path:path>")
-def hello_world():
+@app.route("/<path:path>")
+def hello_world(path):
     return "<p>Hello, World!</p>", 200
 
 
