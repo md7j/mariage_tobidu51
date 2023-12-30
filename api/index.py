@@ -120,7 +120,7 @@ def root():
     if request.method == "GET":
         # if not has_valid_token(request.headers):
         #     return Response(None, 401)
-        return Response(CSVStorage.get_file(), code=200)
+        return CSVStorage.get_file(), 200
 
 # from flask import Flask
 
