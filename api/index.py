@@ -1,16 +1,20 @@
-from flask import Flask, request, Response, redirect
+from flask import Flask, request, Response, send_file
 from flask_cors import CORS
 from os import getenv
 from typing import Any, Union
 import requests
+import io
+
 
 class APIResponseError(ValueError):
     pass
+
 
 def handle_response_errors(response: requests.Response) -> requests.Response:
     if str(response.status_code) == "200":
         return response
     raise APIResponseError(f"Oops, something went wrong: {response.json()}")
+
 
 class BlobHandler:
     def __init__(self) -> None:
@@ -67,7 +71,9 @@ class BlobHandler:
         )
         return handle_response_errors(_resp).json()
 
+
 blob_handler = BlobHandler()
+
 
 class CSVStorage:
     @staticmethod
@@ -75,16 +81,16 @@ class CSVStorage:
         url = CSVStorage.get_file()
         response = requests.get(url)
         data = handle_response_errors(response).text
-        data += ",".join([f"\"{arg}\"" for arg in args]) + "\n"
-        blob_handler.put("export_mariage.csv", bytes(data, 'utf-8'))
+        data += ",".join([f'"{arg}"' for arg in args]) + "\n"
+        blob_handler.put("export_mariage.csv", bytes(data, "utf-8"))
 
     @staticmethod
     def get_file():
         blobs = blob_handler.list()["blobs"]
         if not len(blobs):
-            data = ",".join(["\"nom\"", "\"adresse\"", "\"chorale\"", "\"instrument\""])
+            data = ",".join(['"nom"', '"adresse"', '"chorale"', '"instrument"'])
             return blob_handler.put("export_mariage.csv", bytes(data, "utf-8"))["url"]
-        return sorted(blobs, key=lambda d: d['uploadedAt'], reverse=True)[0]["url"]
+        return sorted(blobs, key=lambda d: d["uploadedAt"], reverse=True)[0]["url"]
 
 
 class UserData:
@@ -97,6 +103,7 @@ class UserData:
     def save(self):
         CSVStorage.add(self.name, self.adress, self.chorale, self.instrument)
 
+
 def has_valid_token(headers):
     token = headers.get("authorization")
     if not token or token != getenv(
@@ -106,8 +113,10 @@ def has_valid_token(headers):
     else:
         return True
 
+
 app = Flask(__name__)
 cors = CORS(app)
+
 
 @app.route("/api", methods=["POST", "GET"])
 def root():
@@ -120,32 +129,12 @@ def root():
     if request.method == "GET":
         # if not has_valid_token(request.headers):
         #     return Response(None, 401)
-        return CSVStorage.get_file(), 200
+        url = CSVStorage.get_file()
 
-# from flask import Flask
-
-# app = Flask(__name__)
-
-# @app.route("/api/python")
-# def hello_world():
-#     return "<p>Hello, World!</p>"
-
-# from flask import Flask, Response
-
-# app = Flask(__name__)
-
-# @app.route("/", defaults={"path": ""})
-# @app.route("/<path:path>")
-# @app.route("/api")
-# def hello_world():
-#     return "<p>Hello, World!</p>", 200
-
-
-# @app.route("/", defaults={"path": ""})
-# def catch_all(path):
-#     # Everything above this line should look the same for each 
-#     # index.py. Modify lines below this to have different logic
-#     # for different routes.
-#     return Response(
-#         "<h1>Flask</h1><p>You visited: /%s</p>" % (path), mimetype="text/html"
-#     )
+        r = requests.get(url, allow_redirects=True)
+        return send_file(
+            io.BytesIO(r.content),
+            attachment_filename="mariage_export.csv",
+            mimetype="text/csv",
+        )
+        # return CSVStorage.get_file(), 200
