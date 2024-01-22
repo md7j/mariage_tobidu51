@@ -134,7 +134,7 @@ def root():
         r = requests.get(url, allow_redirects=True)
         return send_file(
             io.BytesIO(r.content),
-            attachment_filename="mariage_export.csv",
+            download_name="mariage_export.csv",
             mimetype="text/csv",
         )
         # return CSVStorage.get_file(), 200
