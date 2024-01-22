@@ -30,6 +30,7 @@
     margin-top: 15vh;
     align-items: center;
     width: 100%;
+    margin-bottom: 5vh;
 }
 
 .step > .title {
@@ -67,7 +68,7 @@
     }
 
     .step > .title {
-        font-size: 8vw;
+        font-size: 7vw;
     }
 
     .step > .recap-instructions {
