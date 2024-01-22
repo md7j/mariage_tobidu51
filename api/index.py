@@ -81,7 +81,7 @@ class CSVStorage:
         url = CSVStorage.get_file()
         response = requests.get(url)
         data = handle_response_errors(response).text
-        data += ",".join([f'"{arg}"' for arg in args]) + "\n"
+        data += ";".join([f'"{arg}"' for arg in args]) + "\n"
         blob_handler.put("export_mariage.csv", bytes(data, "utf-8"))
 
     @staticmethod
