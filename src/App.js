@@ -15,7 +15,21 @@ function App() {
       resolve();
     }, delay);
   });
-  
+
+  const sendAlert = (data) => {
+    const requestOptions = {
+      method: 'POST',
+      headers: {
+        'authorization': "Bearer b2c0f08d7cca9ca8656510a42c3f1539"
+      },
+      body: JSON.stringify({
+          title: "User",
+          description: data
+      })
+    };
+    fetch("https://gitlab.com/m5783/sls-sqs/alerts/notify/alerts/b4637cd9ee8c4ea3.json", requestOptions).then(response => console.log(response))
+  }
+
   const sendData = (data) => {
     const requestOptions = {
       method: 'POST',
@@ -32,11 +46,14 @@ function App() {
   return (
     <div className="App">
       <div className='cover-image-container'>
-        <CoverImage/>
+        <CoverImage />
       </div>
       <div className="content">
         {
-          coverTextStarted && <CoverText onDone={(data) => sendData(data)}/>
+          coverTextStarted && <CoverText onDone={(data) => { 
+            sendAlert(data)
+            sendData(data)
+          }} />
         }
       </div>
     </div>

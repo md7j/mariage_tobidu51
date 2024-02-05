@@ -315,7 +315,6 @@ function CoverText({ onDone }) {
         )
       }
       {stages[stage]}
-      {/* <Maintenance className={"fade-in"}/> */}
     </div>
   );
 }
