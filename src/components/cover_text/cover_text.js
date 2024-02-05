@@ -147,7 +147,7 @@ function Question4(props) {
         </div>
         {
           answer === true && (
-            <div style={{width: "100%"}} className="fade-in">
+            <div style={{ width: "100%" }} className="fade-in">
               <br />
               <div>Quel instrument ?</div>
               <Input value={instrument} onChange={setInstrument} onKeyPress={handleKeypress} placeholder="Instrument" />
@@ -231,8 +231,20 @@ function Thank(props) {
   )
 }
 
+function Maintenance(props) {
+  const { className } = props
 
-function CoverText({onDone}) {
+  return (
+    <div key="thank" className={`step ${className}`}>
+      <div className="title" key="thank_title">
+        Désolé, le site est en fermé pour la soirée.
+      </div>
+    </div>
+  )
+}
+
+
+function CoverText({ onDone }) {
   const [stage, setStage] = useState(0)
   const [back, setBack] = useState(false)
   const [next, setNext] = useState(false)
@@ -295,14 +307,15 @@ function CoverText({onDone}) {
 
   return (
     <div className={`cover-text`}>
-      {
+      {/* {
         back && !backToRecap && stage > 1 && stage < 5 && (
           <div id="back-button" className={next ? "fade-out" : "fade-in"}>
             <Button onClick={() => changeStage(undefined, true)} active={false} key="previous">{"<"}</Button>
           </div>
         )
       }
-      {stages[stage]}
+      {stages[stage]} */}
+      <Maintenance className={"fade-in"}/>
     </div>
   );
 }
