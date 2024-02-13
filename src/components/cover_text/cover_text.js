@@ -308,14 +308,14 @@ function CoverText({ onDone }) {
   return (
     <div className={`cover-text`}>
       <Maintenance className="fade-in"/>
-      {/* { */}
-      {/*   back && !backToRecap && stage > 1 && stage < 5 && ( */}
-      {/*     <div id="back-button" className={next ? "fade-out" : "fade-in"}> */}
-      {/*       <Button onClick={() => changeStage(undefined, true)} active={false} key="previous">{"<"}</Button> */}
-      {/*     </div> */}
-      {/*   ) */}
-      {/* } */}
-      {/* {stages[stage]} */}
+      {
+        back && !backToRecap && stage > 1 && stage < 5 && (
+          <div id="back-button" className={next ? "fade-out" : "fade-in"}>
+            <Button onClick={() => changeStage(undefined, true)} active={false} key="previous">{"<"}</Button>
+          </div>
+        )
+      }
+      {stages[stage]}
     </div>
   );
 }
