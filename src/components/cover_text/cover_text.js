@@ -237,7 +237,7 @@ function Maintenance(props) {
   return (
     <div key="thank" className={`step ${className}`}>
       <div className="title" key="thank_title">
-        Désolé, le site est en fermé pour la soirée.
+        Désolé, le site est en maintenance jusqu'a ce soir.
       </div>
     </div>
   )
@@ -307,14 +307,15 @@ function CoverText({ onDone }) {
 
   return (
     <div className={`cover-text`}>
-      {
-        back && !backToRecap && stage > 1 && stage < 5 && (
-          <div id="back-button" className={next ? "fade-out" : "fade-in"}>
-            <Button onClick={() => changeStage(undefined, true)} active={false} key="previous">{"<"}</Button>
-          </div>
-        )
-      }
-      {stages[stage]}
+      <Maintenance className="fade-in"/>
+      {/* { */}
+      {/*   back && !backToRecap && stage > 1 && stage < 5 && ( */}
+      {/*     <div id="back-button" className={next ? "fade-out" : "fade-in"}> */}
+      {/*       <Button onClick={() => changeStage(undefined, true)} active={false} key="previous">{"<"}</Button> */}
+      {/*     </div> */}
+      {/*   ) */}
+      {/* } */}
+      {/* {stages[stage]} */}
     </div>
   );
 }
